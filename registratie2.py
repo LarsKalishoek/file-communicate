@@ -100,7 +100,10 @@ def save():
         arr.append("0")
     new_arr = []
     for x in arr:
-        new_arr.append(int(x.removesuffix(".json")))
+        try:
+            new_arr.append(int(x.removesuffix(".json")))
+        except:
+            pass
     num = new_arr[-1] + 1
     if os.path.exists(path + "/databron") == False:
         os.mkdir(path + "/databron")
@@ -116,11 +119,17 @@ def save():
     info = json.dumps(preset, indent=2)
     with open(path + '/databron/' + str(num) + ".json", 'x') as file:
         file.write(info)
+    data = {num : {
+        "naam" : str(num) + ".json",
+        "aanmaak" : current_time
+    }}
+    with open(path + '/databron/data.yml', 'a') as file:
+        documents = yaml.dump(data, file)
 
     
 
 
-#Tkinter labels, widgets, ect...
+#Tkinter labels, widgets, etc...
 label = tkinter.Label(
     window,
     text = "E3 2022",
